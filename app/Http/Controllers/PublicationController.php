@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\user;
+use Illuminate\Notifications\DatabaseNotification;
+
 class PublicationController extends Controller
 {
     /**
@@ -81,6 +83,12 @@ class PublicationController extends Controller
      */
     public function show(Publication $publication)
     {
+        return view('publications.show',['publication' => $publication]);
+    }
+
+    public function showFromNotification(Publication $publication , DatabaseNotification $notification)
+    {
+        $notification->markAsRead(); //apres la leture de notification->reat_at dans data base ne reste pas null
         return view('publications.show',['publication' => $publication]);
     }
 

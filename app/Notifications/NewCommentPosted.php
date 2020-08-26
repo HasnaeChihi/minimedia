@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Topic;
+use App\Publication;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,16 +14,16 @@ class NewCommentPosted extends Notification
     use Queueable;
 
     protected $user;
-    protected $topic;
+    protected $publication;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Topic $topic, User $user)
+    public function __construct(Publication $publication, User $user)
     {
-        $this->topic= $topic;
+        $this->publication= $publication;
         $this->user= $user;
     }
 
@@ -61,9 +61,9 @@ class NewCommentPosted extends Notification
     public function toArray($notifiable)
     {
         return [
-            'topictitle'=> $this->topic->title,
-            'topicId'=> $this->topic->id,
-            'topictitle'=> $this->topic->username
+
+            'publicationId'=> $this->publication->id,
+            'username'=> $this->user->first_name
         ];
     }
 }

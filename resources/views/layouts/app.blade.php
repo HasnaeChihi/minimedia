@@ -49,23 +49,22 @@
                                 </li>
                             @endif
                         @else
+                        @unless (auth()->user()->unredNotifications->isEmpty())
+                    
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ auth()::user()->unreadNotifications->count() }} notification(s)<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    @foreach(auth()::user()->unreadNotifications as $notification)
+                                    <a href="{{route('publications.showFromNotification' , ['publication'=> $notification->data['publicatonId'] , 'notification'=> $notification->id])}}" class="dropdown-item">{{ $notification->data['first_name']}} a posté un commentaire sur votre publication </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+
+                                    @endforeach
                                 </div>
                             </li>
+                         @endunless
                         @endguest
                     </ul>
                 </div>
